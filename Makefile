@@ -35,6 +35,10 @@ dc-up:
 dc-down:
 	@docker compose down
 
+# static check
+lint:
+	@staticcheck ./...
+
 # swagger
 s-fmt:
 	@swag fmt
