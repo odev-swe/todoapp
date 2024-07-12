@@ -12,5 +12,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  todo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todo
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data: {}
