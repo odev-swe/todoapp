@@ -15,6 +15,9 @@ type TodosHandler struct {
 	service types.TodosServices
 }
 
+type LimitKey string
+type OffsetKey string
+
 func NewTodosHandler(service types.TodosServices) *TodosHandler {
 	return &TodosHandler{service: service}
 }
@@ -59,8 +62,8 @@ func (h *TodosHandler) Get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := r.Context()
-	ctx = context.WithValue(ctx, "limit", limit)
-	ctx = context.WithValue(ctx, "offset", offset)
+	ctx = context.WithValue(ctx, LimitKey("limit"), limit)
+	ctx = context.WithValue(ctx, OffsetKey("offset"), offset)
 
 	// timeout context
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
@@ -88,7 +91,9 @@ func (h *TodosHandler) Get(w http.ResponseWriter, r *http.Request) {
 //	@Tags			todos
 //	@Accept			json
 //	@Produce		json
+//
 // @Param			body	body	types.TodosPostRequestBody	true	"Todo object that needs to be created"
+//
 //	@Security		ApiKeyAuth
 //	@Success		200	{object}	libs.Response
 //	@Failure		400	{object}	libs.Response

@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 )
 
-const UserIdKey = "user-id"
+type UserIdKey string
 
 func (app *application) LogMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +52,7 @@ func (app *application) AuthMiddleware(next http.Handler) http.Handler {
 
 		// wrap in context
 		ctx := r.Context()
-		ctx = context.WithValue(ctx, UserIdKey, id)
+		ctx = context.WithValue(ctx, UserIdKey("user-id"), id)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
