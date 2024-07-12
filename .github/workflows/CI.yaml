@@ -2,9 +2,8 @@ name: Release CI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+# trigger manually
+  
 
 jobs:
   todoapp-ci:
