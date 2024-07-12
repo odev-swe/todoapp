@@ -1,0 +1,265 @@
+basePath: /api/v1
+definitions:
+  libs.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  types.TodosDeleteRequestBody:
+    properties:
+      id:
+        type: string
+    type: object
+  types.TodosPostRequestBody:
+    properties:
+      completed:
+        type: boolean
+      description:
+        type: string
+      due_date:
+        default: "2022-01-01T00:00:00Z"
+        type: string
+      title:
+        type: string
+    type: object
+  types.TodosPutRequestBody:
+    properties:
+      completed:
+        type: boolean
+      description:
+        type: string
+      due_date:
+        default: "2022-01-01T00:00:00Z"
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  types.UserRequestBody:
+    properties:
+      email:
+        example: admin@gmail.com
+        type: string
+      password:
+        example: admin
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a simple todo app API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: TodoApp API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login an account with email and password
+      parameters:
+      - description: User object that needs to be registered
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/libs.Response'
+      summary: Login an account
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: register an account with email and password
+      parameters:
+      - description: User object that needs to be registered
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/libs.Response'
+      summary: Register an account
+      tags:
+      - auth
+  /todos:
+    delete:
+      consumes:
+      - application/json
+      description: delete a todo
+      parameters:
+      - description: Todo object that needs to be created
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.TodosDeleteRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/libs.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a todo
+      tags:
+      - todos
+    get:
+      consumes:
+      - application/json
+      description: get todos with pagination
+      parameters:
+      - default: 10
+        description: Limit
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/libs.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get todos
+      tags:
+      - todos
+    post:
+      consumes:
+      - application/json
+      description: create a new todo
+      parameters:
+      - description: Todo object that needs to be created
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.TodosPostRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/libs.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new todo
+      tags:
+      - todos
+    put:
+      consumes:
+      - application/json
+      description: update a todo
+      parameters:
+      - description: Todo object that needs to be updated
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/types.TodosPutRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/libs.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/libs.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a todo
+      tags:
+      - todos
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
