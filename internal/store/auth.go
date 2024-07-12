@@ -92,6 +92,10 @@ func (s *AuthStore) Login(ctx context.Context, req types.UserRequestBody) (*type
 	// generate access token
 	at, err := libs.GenerateToken(user, s.secret, libs.AccessToken)
 
+	if err != nil {
+		return nil, err
+	}
+
 	// generate refresh token
 	rt, err := libs.GenerateToken(user, s.secret, libs.RefreshToken)
 
