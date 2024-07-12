@@ -18,6 +18,10 @@ func NewDbConfig(cfg *Config) *DbConfig {
 
 	defer cancel()
 
+	if cfg.Env == "development" {
+		cfg.DbHost = "localhost"
+	}
+
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", cfg.DbUser, cfg.DbPassword, cfg.DbHost, cfg.DbPort, cfg.DbName)
 
 	dbCfg, err := pgxpool.ParseConfig(connString)
