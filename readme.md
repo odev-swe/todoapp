@@ -29,6 +29,7 @@ Prerequisites:
 - [Make](https://www.gnu.org/software/make/) (optional)
 - [Postman](https://www.postman.com/downloads/) (optional)
 - [Swaggo](https://github.com/swaggo/swag)
+- [dlv](https://github.com/go-delve/delve) (for debugging)
 
 ### Clone the repository
 
