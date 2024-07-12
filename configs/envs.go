@@ -18,6 +18,7 @@ type Config struct {
 	RateLimitWindow int
 	Port            string
 	JwtSecret       string
+	Env             string
 }
 
 func NewEnv() *Config {
@@ -39,6 +40,7 @@ func NewEnv() *Config {
 		RateLimit:       getEnvInt("RATE_LIMITER_MAX_REQUESTS", 10),
 		RateLimitWindow: getEnvInt("RATE_LIMITER_WINDOW", 10),
 		Port:            getEnv("PORT", "3000"),
+		Env: 					 getEnv("ENV", "development"),
 		JwtSecret:       getEnv("JWT_SECRET", "secret"),
 	}
 }
