@@ -27,7 +27,7 @@ jobs:
         run: staticcheck ./...
       
       - name: Test with Coverage
-        run: go test -v -coverprofile=coverage.out ./internal/..
+        run: go test -v -coverprofile=coverage.out ./internal/**
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
