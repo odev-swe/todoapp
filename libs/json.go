@@ -35,3 +35,23 @@ func ParseJSON(r *http.Request, v any) error {
 	// handle time
 	return json.NewDecoder(r.Body).Decode(v)
 }
+
+func ParseStringJSON(jsonData string, v any) error {
+	err := json.Unmarshal([]byte(jsonData), v)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func StringifyJSON(v any) ([]byte, error) {
+	data, err := json.Marshal(v)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
