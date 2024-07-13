@@ -81,7 +81,7 @@ libraries and frameworks used in this project:
 - [x] Authentication using JWT
 - [x] Todos (CRUD)
 - [x] Rate Limiting
-- [ ] Caching
+- [x] Caching
 - [ ] Notifcation
 - [ ] Testing
 - [ ] CI/CD Pipeline with Github Actions (own runner)
