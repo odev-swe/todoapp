@@ -2,8 +2,10 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/odev-swe/todoapp/docs"
 	"github.com/odev-swe/todoapp/internal/handlers"
 	"github.com/odev-swe/todoapp/internal/services"
@@ -44,6 +46,7 @@ func (app *application) Start() {
 	// middlewares
 	router.Use(app.LogMiddleware)
 	router.Use(app.RateLimitMiddleware)
+	router.Use(middleware.Timeout(10 * time.Second))
 
 	router.Get("/swagger/*", httpSwagger.WrapHandler)
 
@@ -65,11 +68,10 @@ func (app *application) Start() {
 		// todos routes
 		r.Route("/todos", func(r chi.Router) {
 			r.Use(app.AuthMiddleware)
-			todoStore := store.NewTodosStore(app.db)
+			todoStore := store.NewTodosStore(app.db, app.redis)
 			todoService := services.NewTodosService(todoStore)
 			todoHandler := handlers.NewTodosHandler(todoService)
 			todoHandler.RegisterRoute(r)
-
 		})
 	})
 

@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/odev-swe/todoapp/internal/types"
 	"github.com/odev-swe/todoapp/libs"
 	"go.uber.org/zap"
 )
@@ -52,7 +53,7 @@ func (app *application) AuthMiddleware(next http.Handler) http.Handler {
 
 		// wrap in context
 		ctx := r.Context()
-		ctx = context.WithValue(ctx, UserIdKey("user-id"), id)
+		ctx = context.WithValue(ctx, types.UserIdKey("user-id"), id)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

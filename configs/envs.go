@@ -19,6 +19,8 @@ type Config struct {
 	Port            string
 	JwtSecret       string
 	Env             string
+	RedisHost       string
+	RedisPort       string
 }
 
 func NewEnv() *Config {
@@ -35,13 +37,15 @@ func NewEnv() *Config {
 		DbUser:          getEnv("POSTGRES_USER", "postgres"),
 		DbPassword:      getEnv("POSTGRES_PASSWORD", "postgres"),
 		DbName:          getEnv("POSTGRES_DB", "postgres"),
-		DbHost:          getEnv("POSTGRES_HOST", "localhost"),
+		DbHost:          getEnv("POSTGRES_HOST", "postgres"),
 		DbPort:          getEnv("POSTGRES_PORT", "5432"),
 		RateLimit:       getEnvInt("RATE_LIMITER_MAX_REQUESTS", 10),
 		RateLimitWindow: getEnvInt("RATE_LIMITER_WINDOW", 10),
 		Port:            getEnv("PORT", "3000"),
-		Env: 					 getEnv("ENV", "development"),
+		Env:             getEnv("ENV", "development"),
 		JwtSecret:       getEnv("JWT_SECRET", "secret"),
+		RedisHost:       getEnv("REDIS_HOST", "redis"),
+		RedisPort:       getEnv("REDIS_PORT", "6379"),
 	}
 }
 
