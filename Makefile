@@ -39,6 +39,10 @@ dc-down:
 lint:
 	@staticcheck ./...
 
+# test
+test:
+	@go test -v -coverprofile=coverage.out ./internal/**
+
 # swagger
 s-fmt:
 	@swag fmt
