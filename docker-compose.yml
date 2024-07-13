@@ -12,17 +12,31 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  todo:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: todo
+  redis:
+    image: redis:latest
+    container_name: redis
     ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    depends_on:
-      - postgres
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    command:
+      - "redis-server"
+
+  # todo:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: todo
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - postgres
 
 volumes:
   postgres_data: {}
