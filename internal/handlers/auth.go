@@ -25,9 +25,10 @@ func (h *AuthHandler) RegisterRoute(r chi.Router) {
 }
 
 // Auth godoc
+//
 //	@Summary		Register an account
 //	@Description	register an account with email and password
-//	@Tags			auth	
+//	@Tags			auth
 //	@Accept			json
 //	@Produce		json
 //	@Param			body	body		types.UserRequestBody	true	"User object that needs to be registered"
@@ -46,18 +47,9 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// timeout context
-	ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
-	defer cancel()
-
-	res, err := h.authService.Register(ctx, user)
+	res, err := h.authService.Register(r.Context(), user)
 
 	if err != nil {
-		// handle context timeout error
-		if ctx.Err() == context.DeadlineExceeded {
-			libs.InternalServerError(w, "Request timeout")
-			return
-		}
 		libs.InternalServerError(w, err.Error())
 		return
 	}
@@ -66,9 +58,10 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 // Auth godoc
+//
 //	@Summary		Login an account
 //	@Description	Login an account with email and password
-//	@Tags			auth	
+//	@Tags			auth
 //	@Accept			json
 //	@Produce		json
 //	@Param			body	body		types.UserRequestBody	true	"User object that needs to be registered"

@@ -7,6 +7,8 @@ import (
 	"github.com/google/uuid"
 )
 
+type UserIdKey string
+
 type User struct {
 	Id        uuid.UUID `json:"id"`
 	Email     string    `json:"email"`

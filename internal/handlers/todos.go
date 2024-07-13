@@ -65,18 +65,9 @@ func (h *TodosHandler) Get(w http.ResponseWriter, r *http.Request) {
 	ctx = context.WithValue(ctx, LimitKey("limit"), limit)
 	ctx = context.WithValue(ctx, OffsetKey("offset"), offset)
 
-	// timeout context
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-
 	res, err := h.service.Get(ctx)
 
 	if err != nil {
-		// handle context timeout error
-		if ctx.Err() == context.DeadlineExceeded {
-			libs.InternalServerError(w, "Request timeout")
-			return
-		}
 		libs.InternalServerError(w, err.Error())
 		return
 	}
@@ -110,18 +101,9 @@ func (h *TodosHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// timeout context
-	ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
-	defer cancel()
-
-	res, err := h.service.Create(ctx, todo)
+	res, err := h.service.Create(r.Context(), todo)
 
 	if err != nil {
-		// handle context timeout error
-		if ctx.Err() == context.DeadlineExceeded {
-			libs.InternalServerError(w, "Request timeout")
-			return
-		}
 		libs.InternalServerError(w, err.Error())
 		return
 	}
@@ -153,18 +135,9 @@ func (h *TodosHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// timeout context
-	ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
-	defer cancel()
-
-	res, err := h.service.Update(ctx, todo)
+	res, err := h.service.Update(r.Context(), todo)
 
 	if err != nil {
-		// handle context timeout error
-		if ctx.Err() == context.DeadlineExceeded {
-			libs.InternalServerError(w, "Request timeout")
-			return
-		}
 		libs.InternalServerError(w, err.Error())
 		return
 	}
@@ -203,11 +176,6 @@ func (h *TodosHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	err = h.service.Delete(ctx, todo)
 
 	if err != nil {
-		// handle context timeout error
-		if ctx.Err() == context.DeadlineExceeded {
-			libs.InternalServerError(w, "Request timeout")
-			return
-		}
 		libs.InternalServerError(w, err.Error())
 		return
 	}

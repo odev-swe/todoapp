@@ -25,13 +25,13 @@ func (s *AuthStore) Register(ctx context.Context, req types.UserRequestBody) (*t
 	// Acquire a connection from the pool
 	conn, err := s.db.Acquire(ctx)
 
-	// Release the connection back to the pool
-	defer conn.Release()
-
 	if err != nil {
 		// handle error
 		return nil, err
 	}
+
+	// Release the connection back to the pool
+	defer conn.Release()
 
 	// hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
@@ -59,13 +59,13 @@ func (s *AuthStore) Login(ctx context.Context, req types.UserRequestBody) (*type
 	// Acquire a connection from the pool
 	conn, err := s.db.Acquire(ctx)
 
-	// Release the connection back to the pool
-	defer conn.Release()
-
 	if err != nil {
 		// handle error
 		return nil, err
 	}
+
+	// Release the connection back to the pool
+	defer conn.Release()
 
 	var user types.User
 
